@@ -1,0 +1,25 @@
+diff --git a/src/vs/workbench/contrib/markers/browser/markersView.ts b/src/vs/workbench/contrib/markers/browser/markersView.ts
+index 85ad02f..69b2c6c 100644
+--- a/src/vs/workbench/contrib/markers/browser/markersView.ts
++++ b/src/vs/workbench/contrib/markers/browser/markersView.ts
+@@ -27,6 +27,7 @@ import { Relay, Event } from '../../../../base/common/event.js';
+ import { WorkbenchObjectTree, IListService, IWorkbenchObjectTreeOptions, IOpenEvent } from '../../../../platform/list/browser/listService.js';
+ import { FilterOptions } from './markersFilterOptions.js';
+ import { IExpression } from '../../../../base/common/glob.js';
++import { Range } from '../../../../editor/common/core/range.js';
+ import { deepClone } from '../../../../base/common/objects.js';
+ import { IWorkspaceContextService } from '../../../../platform/workspace/common/workspace.js';
+ import { FilterData, Filter, VirtualDelegate, ResourceMarkersRenderer, MarkerRenderer, RelatedInformationRenderer, MarkersWidgetAccessibilityProvider, MarkersViewModel } from './markersTreeViewer.js';
+@@ -286,9 +287,9 @@ export class MarkersView extends FilterViewPane implements IMarkersView {
+ 	}
+ 
+ 	public openFileAtElement(element: any, preserveFocus: boolean, sideByside: boolean, pinned: boolean): boolean {
+-		const { resource, selection } = element instanceof Marker ? { resource: element.resource, selection: element.range } :
+-			element instanceof RelatedInformation ? { resource: element.raw.resource, selection: element.raw } :
+-				'marker' in element ? { resource: element.marker.resource, selection: element.marker.range } :
++		const { resource, selection } = element instanceof Marker ? { resource: element.resource, selection: Range.collapseToEnd(element.range) } :
++			element instanceof RelatedInformation ? { resource: element.raw.resource, selection: Range.collapseToEnd(element.raw) } :
++				'marker' in element ? { resource: element.marker.resource, selection: Range.collapseToEnd(element.marker.range) } :
+ 					{ resource: null, selection: null };
+ 		if (resource && selection) {
+ 			this.editorService.openEditor({
