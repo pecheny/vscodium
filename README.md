@@ -1,3 +1,9 @@
+## Fork info
+
+My personal UX patches for VSCode.
+
+----
+
 <div id="vscodium-logo" align="center">
     <br />
     <img src="./icons/stable/codium_cnl.svg" alt="VSCodium Logo" width="200"/>
